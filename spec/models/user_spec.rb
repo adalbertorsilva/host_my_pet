@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe "login validations" do
+  describe "sinup validations" do
 
     it "has a required name" do
       expect(build(:user, :test_user, name: nil)).to_not be_valid
@@ -37,6 +37,14 @@ RSpec.describe User, type: :model do
 
       create(:user, :test_user, password_confirmation: "senha")
       expect(build(:user, :test_user, password_confirmation: "senha")).to_not be_valid
+    end
+
+    it "has a encrypted password" do
+      user = build(:user, :test_user)
+      password = user.password
+      user.password_confirmation = password
+      user.save
+      expect(user.password).to_not be eq(password)
     end
 
   end
